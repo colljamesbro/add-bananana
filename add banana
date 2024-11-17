@@ -1,23 +1,35 @@
--- Example: Using a game-provided API to add bananas
-local function addBananasSafely(amount)
-    if game and game.AddResource then
-        game.AddResource("bananas", amount) -- Replace with actual API function
-        print("Added " .. amount .. " bananas safely!")
-    else
-        print("Error: Game API not available.")
-    end
+-- Example for handling input in a Lua script
+
+-- Variable to store bananas (update this to match your game variable)
+local currentBananas = 417576
+
+-- Function to add bananas
+local function addBananas(amount)
+    currentBananas = currentBananas + amount
+    print("Bananas added! You now have " .. currentBananas .. " bananas.")
 end
 
--- Trigger on key press
+-- Function to listen for key presses
 local function onKeyPress(key)
     if key == "0" then
-        addBananasSafely(100000)
+        addBananas(100000)
     end
 end
 
--- Set up key listener
-function setupKeyListener()
-    print("Key listener active. Press 0 to add bananas safely.")
+-- Example input handling system (change this for your game engine)
+local function simulateKeyPress()
+    print("Simulating key press listener. Press 0 to add bananas.")
+
+    -- Simulate an input system that waits for user input
+    while true do
+        local key = io.read() -- Reads user input from the console
+        if key == "0" then
+            onKeyPress("0")
+        else
+            print("Press 0 to add bananas!")
+        end
+    end
 end
 
-setupKeyListener()
+-- Run the key press simulation
+simulateKeyPress()
