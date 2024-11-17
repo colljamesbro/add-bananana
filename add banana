@@ -1,72 +1,26 @@
 -- Variables for player and banana count
 local player = game.Players.LocalPlayer
-local currentBananas = 417616 -- Starting banana count
+local currentBananas = 417616  -- Initial banana count
 
 -- Create the main screen GUI
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "BananaScreenGui"
-screenGui.Parent = player:WaitForChild("PlayerGui")  -- Ensure this is parented correctly
+screenGui.Parent = player:WaitForChild("PlayerGui")  -- Parent the GUI to PlayerGui
 
--- Create the draggable button to open the side GUI
-local draggableButton = Instance.new("TextButton")
-draggableButton.Size = UDim2.new(0, 200, 0, 50)
-draggableButton.Position = UDim2.new(0.1, 0, 0.1, 0)
-draggableButton.Text = "Open Side GUI"
-draggableButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-draggableButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-draggableButton.Parent = screenGui
-
--- Function to make the button draggable
-local function makeDraggable(frame)
-    local dragInput, dragStart, startPos
-
-    local function update(input)
-        local delta = input.Position - dragStart
-        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-
-    frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragStart = input.Position
-            startPos = frame.Position
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    game:GetService("UserInputService").InputChanged:Disconnect(update)
-                end
-            end)
-            game:GetService("UserInputService").InputChanged:Connect(update)
-        end
-    end)
-end
-
--- Make the draggable button movable
-makeDraggable(draggableButton)
-
--- Create the side GUI (hidden initially)
-local sideFrame = Instance.new("Frame")
-sideFrame.Size = UDim2.new(0.2, 0, 1, 0)
-sideFrame.Position = UDim2.new(0.8, 0, 0, 0)
-sideFrame.BackgroundColor3 = Color3.fromRGB(200, 200, 255)
-sideFrame.Visible = false
-sideFrame.Parent = screenGui
-
+-- Create the "Add 100k Bananas" button
 local addBananasButton = Instance.new("TextButton")
-addBananasButton.Size = UDim2.new(1, 0, 0.2, 0)
-addBananasButton.Position = UDim2.new(0, 0, 0.1, 0)
-addBananasButton.Text = "Add Bananas"
+addBananasButton.Size = UDim2.new(0, 200, 0, 50)
+addBananasButton.Position = UDim2.new(0.4, 0, 0.4, 0)
+addBananasButton.Text = "Add 100k Bananas"
 addBananasButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 addBananasButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-addBananasButton.Parent = sideFrame
+addBananasButton.Parent = screenGui
 
 -- Function to add bananas when the button is clicked
 local function addBananas()
-    currentBananas = currentBananas + 10000
+    currentBananas = currentBananas + 100000  -- Add 100k bananas
     print("You now have " .. currentBananas .. " bananas.")
 end
 
+-- Connect the function to the button click
 addBananasButton.MouseButton1Click:Connect(addBananas)
-
--- Toggle side GUI visibility when draggable button is clicked
-draggableButton.MouseButton1Click:Connect(function()
-    sideFrame.Visible = not sideFrame.Visible
-end)
