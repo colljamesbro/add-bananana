@@ -1,6 +1,6 @@
--- Variables for player and banana count
+-- Variables for player and banana count (local count for display)
 local player = game.Players.LocalPlayer
-local currentBananas = 417616  -- Initial banana count
+local currentBananas = 417616  -- Initial banana count (local)
 
 -- Create the main screen GUI
 local screenGui = Instance.new("ScreenGui")
