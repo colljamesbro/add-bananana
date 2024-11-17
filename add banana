@@ -16,10 +16,21 @@ addBananasButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 addBananasButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 addBananasButton.Parent = screenGui
 
+-- Create the TextLabel to display current banana count
+local bananaCountLabel = Instance.new("TextLabel")
+bananaCountLabel.Size = UDim2.new(0, 300, 0, 50)
+bananaCountLabel.Position = UDim2.new(0.4, 0, 0.3, 0)
+bananaCountLabel.Text = "Current Bananas: " .. currentBananas
+bananaCountLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+bananaCountLabel.TextScaled = true
+bananaCountLabel.BackgroundTransparency = 1
+bananaCountLabel.Parent = screenGui
+
 -- Function to add bananas when the button is clicked
 local function addBananas()
     currentBananas = currentBananas + 100000  -- Add 100k bananas
-    print("You now have " .. currentBananas .. " bananas.")
+    bananaCountLabel.Text = "Current Bananas: " .. currentBananas  -- Update the label with the new count
+    print("You now have " .. currentBananas .. " bananas.")  -- Print to the output for debugging
 end
 
 -- Connect the function to the button click
