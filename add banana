@@ -1,0 +1,29 @@
+-- Define the player's banana count (example variable, change to match your game system)
+local currentBananas = 0
+
+-- Function to add bananas
+local function addBananas(amount)
+    currentBananas = currentBananas + amount
+    print("Bananas added! You now have " .. currentBananas .. " bananas.")
+end
+
+-- Listen for key press (example: 0 key)
+local function onKeyPress(key)
+    if key == "0" then
+        addBananas(100000)
+    end
+end
+
+-- Mock key listener setup (depends on the game engine's input system)
+-- Replace with your game engine's method to listen for key presses
+function setupKeyListener()
+    -- This is a placeholder. Replace it with the actual listener setup for your engine.
+    print("Key listener set up. Press 0 to add bananas.")
+end
+
+-- Set up the key listener
+setupKeyListener()
+
+-- Example keypress simulation (remove or replace in a real game)
+-- Simulate pressing "0" key
+onKeyPress("0")
