@@ -1,24 +1,75 @@
--- Initial banana count
-local currentBananas = 417616
+-- Variables for player and banana count
+local player = game.Players.LocalPlayer
+local currentBananas = 417616 -- Starting banana count
 
--- Function to add bananas
-local function addBananas(amount)
-    currentBananas = currentBananas + amount
-    print("Bananas added! You now have " .. currentBananas .. " bananas.")
+-- Create the main screen GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Create the password input GUI
+local passwordFrame = Instance.new("Frame")
+passwordFrame.Size = UDim2.new(0.3, 0, 0.3, 0)
+passwordFrame.Position = UDim2.new(0.35, 0, 0.35, 0)
+passwordFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+passwordFrame.Parent = screenGui
+
+local passwordLabel = Instance.new("TextLabel")
+passwordLabel.Size = UDim2.new(1, 0, 0.2, 0)
+passwordLabel.Text = "Enter Password"
+passwordLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+passwordLabel.TextScaled = true
+passwordLabel.BackgroundTransparency = 1
+passwordLabel.Parent = passwordFrame
+
+local passwordInput = Instance.new("TextBox")
+passwordInput.Size = UDim2.new(1, 0, 0.3, 0)
+passwordInput.Position = UDim2.new(0, 0, 0.2, 0)
+passwordInput.PlaceholderText = "Password"
+passwordInput.TextScaled = true
+passwordInput.BackgroundColor3 = Color3.fromRGB(220, 220, 220)
+passwordInput.Parent = passwordFrame
+
+local submitButton = Instance.new("TextButton")
+submitButton.Size = UDim2.new(0.5, 0, 0.2, 0)
+submitButton.Position = UDim2.new(0.25, 0, 0.7, 0)
+submitButton.Text = "Submit"
+submitButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+submitButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+submitButton.Parent = passwordFrame
+
+-- Function to handle password check and show the next GUI
+local function onPasswordSubmit()
+    if passwordInput.Text == "pass" then
+        -- Hide the password GUI
+        passwordFrame.Visible = false
+
+        -- Create the side GUI
+        local sideFrame = Instance.new("Frame")
+        sideFrame.Size = UDim2.new(0.2, 0, 1, 0)
+        sideFrame.Position = UDim2.new(0.8, 0, 0, 0)
+        sideFrame.BackgroundColor3 = Color3.fromRGB(200, 200, 255)
+        sideFrame.Parent = screenGui
+
+        local addBananasButton = Instance.new("TextButton")
+        addBananasButton.Size = UDim2.new(1, 0, 0.2, 0)
+        addBananasButton.Position = UDim2.new(0, 0, 0.1, 0)
+        addBananasButton.Text = "Add Bananas"
+        addBananasButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+        addBananasButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        addBananasButton.Parent = sideFrame
+
+        -- Function to add bananas when the button is clicked
+        local function addBananas()
+            currentBananas = currentBananas + 10000
+            print("You now have " .. currentBananas .. " bananas.")
+        end
+
+        addBananasButton.MouseButton1Click:Connect(addBananas)
+    else
+        -- If password is incorrect, show a warning
+        passwordLabel.Text = "Incorrect Password"
+        passwordLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+    end
 end
 
--- Listen for key presses (single quote detection workaround)
-local UserInputService = game:GetService("UserInputService")
-
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if not gameProcessed and input.KeyCode == Enum.KeyCode.Unknown then
-        if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Unknown then
-            local keyText = input.UserInputState == Enum.UserInputState.Begin and input.KeyCode.Name
-            if keyText == "'" then -- Check if the key pressed is the single quote
-                addBananas(100000) -- Add 100k bananas
-            end
-        end
-    end
-end)
-
-print("Script running. Press ' (single quote) to add bananas. Starting bananas: " .. currentBananas)
+submitButton.MouseButton1Click:Connect(onPasswordSubmit)
