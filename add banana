@@ -1,7 +1,5 @@
--- Example for handling input in a Lua script
-
--- Variable to store bananas (update this to match your game variable)
-local currentBananas = 417576
+-- Initial banana count
+local currentBananas = 417616
 
 -- Function to add bananas
 local function addBananas(amount)
@@ -9,27 +7,18 @@ local function addBananas(amount)
     print("Bananas added! You now have " .. currentBananas .. " bananas.")
 end
 
--- Function to listen for key presses
-local function onKeyPress(key)
-    if key == "0" then
-        addBananas(100000)
-    end
-end
+-- Listen for key presses (single quote detection workaround)
+local UserInputService = game:GetService("UserInputService")
 
--- Example input handling system (change this for your game engine)
-local function simulateKeyPress()
-    print("Simulating key press listener. Press 0 to add bananas.")
-
-    -- Simulate an input system that waits for user input
-    while true do
-        local key = io.read() -- Reads user input from the console
-        if key == "0" then
-            onKeyPress("0")
-        else
-            print("Press 0 to add bananas!")
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.Unknown then
+        if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Unknown then
+            local keyText = input.UserInputState == Enum.UserInputState.Begin and input.KeyCode.Name
+            if keyText == "'" then -- Check if the key pressed is the single quote
+                addBananas(100000) -- Add 100k bananas
+            end
         end
     end
-end
+end)
 
--- Run the key press simulation
-simulateKeyPress()
+print("Script running. Press ' (single quote) to add bananas. Starting bananas: " .. currentBananas)
